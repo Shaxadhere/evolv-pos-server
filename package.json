@@ -5,12 +5,13 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon .",
-    "start":"node ."
+    "start": "node ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",

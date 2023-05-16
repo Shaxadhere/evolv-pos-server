@@ -43,9 +43,10 @@ app.use(cookieParser());
 // app.use(expressValidator())
 
 // // redirecting on root
-// app.get("/", (req, res) => {
+app.get("/", (req, res) => {
 //   res.send(`<script>window.location.href='https://${process.env.CLIENT_URL}'</script>`);
-// });
+  res.send(`hello`);
+});
 
 //registering routes
 app.use("/api/auth", authRoutes);
