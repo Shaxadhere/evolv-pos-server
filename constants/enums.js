@@ -1,4 +1,4 @@
-export const STORE_STATUS = {
+exports.STORE_STATUS = {
     ACTIVE: 'ACTIVE',
     INACTIVE: 'INACTIVE',
 }

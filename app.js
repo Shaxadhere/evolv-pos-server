@@ -10,6 +10,11 @@ require("dotenv").config();
 
 //importing routes
 const authRoutes = require("./routes/auth");
+const categoryRoutes = require("./routes/category");
+const productRoutes = require("./routes/product");
+const saleRoutes = require("./routes/sale");
+const storeRoutes = require("./routes/store");
+const userRoutes = require("./routes/user");
 
 //initialising app
 const app = express();
@@ -44,15 +49,19 @@ app.use(cookieParser());
 
 // // redirecting on root
 app.get("/", (req, res) => {
-//   res.send(`<script>window.location.href='https://${process.env.CLIENT_URL}'</script>`);
-  res.send(`hello`);
+    //   res.send(`<script>window.location.href='https://${process.env.CLIENT_URL}'</script>`);
+    res.send(`hello`);
 });
 
 //registering routes
 app.use("/api/auth", authRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/sale", saleRoutes);
+app.use("/api/store", storeRoutes);
+app.use("/api/user", userRoutes);
 
-// app.use("/uploads", express.static("uploads"));
-// app.use("/public", express.static("./views"))
+app.use("/uploads", express.static("uploads"));
 
 //listen to server
 const port = process.env.PORT || 5000;

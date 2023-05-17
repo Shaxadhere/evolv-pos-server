@@ -19,4 +19,4 @@ const categorySchema = new mongoose.Schema({
 
 categorySchema.plugin(mongoosePaginate);
 categorySchema.plugin(aggregatePaginate);
-module.exports = mongoose.model("user", categorySchema);
+module.exports = mongoose.model("category", categorySchema);
