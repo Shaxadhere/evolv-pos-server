@@ -41,6 +41,11 @@ const productSchema = new mongoose.Schema({
     shipping: {
         required: false,
         type: Boolean
+    },
+    storeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "store",
+        required: true
     }
 }, { timestamps: true })
 

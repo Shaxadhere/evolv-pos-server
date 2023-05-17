@@ -6,7 +6,7 @@ const sanitizeUser = require("../helpers/sanitizeUser");
 
 exports.signin = (req, res) => {
   const { email, password } = req.body;
-  User.findOne({ email, password })
+  User.findOne({ email })
     .then((user) => {
       if (!user) {
         return res.json(ApiResponse({}, "Invalid email or password", false));
@@ -16,15 +16,7 @@ exports.signin = (req, res) => {
       }
 
       const token = generateToken(user)
-      user.activeSession = token
-
-      user.save((err, data) => {
-        if (err) {
-          return res.json(ApiResponse({}, err.message, false))
-        }
-        return res.json(ApiResponse({ user: sanitizeUser(data), token }));
-      })
-
+      return res.json(ApiResponse({ user: sanitizeUser(user), token }));
     })
     .catch((err) => {
       return res.json(

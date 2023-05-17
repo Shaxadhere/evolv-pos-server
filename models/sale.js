@@ -37,6 +37,11 @@ const saleSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
+    },
+    storeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "store",
+        required: true
     }
 }, { timestamps: true })
 

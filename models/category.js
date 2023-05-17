@@ -14,6 +14,11 @@ const categorySchema = new mongoose.Schema({
         required: true,
         trim: true,
         maxlength: 2000
+    },
+    storeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "store",
+        required: true
     }
 }, { timestamps: true })
 

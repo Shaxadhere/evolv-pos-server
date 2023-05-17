@@ -20,25 +20,20 @@ exports.authenticatedRoute = (req, res, next) => {
         const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
 
         //finding current user in db
-        User.findById(decoded._id, (err, user) => {
-            if (err) {
+        User.findById(decoded._id)
+            .then((user) => {
+                //responding with user not found error
+                if (!user) {
+                    return res.json(ApiResponse({}, "User not found", false))
+                }
+                req.user = user;
+                next()
+            })
+            .catch((err) => {
                 return res.json(ApiResponse({}, errorHandler(err), false))
-            }
-
-            //responding with user not found error
-            if (!user) {
-                return res.json(ApiResponse({}, "User not found", false))
-            }
-
-            //matching active session of user
-            if (user.activeSession != token.replace('Bearer ', '') && !user.isAdmin) {
-                return res.status(401).json(ApiResponse({}, "Session expired, Please sign in again", false))
-            }
-
-            req.user = user;
-            next()
-        })
+            })
     } catch (err) {
+        console.log(err)
         return res.status(401).send(ApiResponse({}, "Session expired, Please sign in again", false))
     }
     // return next();
@@ -56,16 +51,17 @@ exports.adminRoute = (req, res, next) => {
         if (!decoded.isAdmin) {
             return res.status(401).json(ApiResponse({}, "Unauthorized Access", false))
         }
-        User.findById(decoded._id, (err, user) => {
-            if (err) {
+        User.findById(decoded._id)
+            .then((user) => {
+                if (!user) {
+                    return res.json(ApiResponse({}, "User not found", false))
+                }
+                req.user = user;
+                next()
+            })
+            .catch((err) => {
                 return res.json(ApiResponse({}, errorHandler(err), false))
-            }
-            if (!user) {
-                return res.json(ApiResponse({}, "User not found", false))
-            }
-            req.user = user;
-            next()
-        })
+            })
     } catch (err) {
         return res.status(401).send(ApiResponse({}, "Invalid Token, Please sign in again", false));
     }
