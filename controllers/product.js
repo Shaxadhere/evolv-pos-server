@@ -11,7 +11,7 @@ exports.list = (req, res) => {
             return res.json(ApiResponse(products));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -24,7 +24,7 @@ exports.productById = (req, res) => {
             return res.json(ApiResponse(product));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -36,7 +36,7 @@ exports.create = (req, res) => {
             return res.json(ApiResponse(product));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -54,7 +54,7 @@ exports.update = (req, res) => {
             }
             );
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -67,6 +67,6 @@ exports.remove = (req, res) => {
             return res.json(ApiResponse(product));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }

@@ -10,7 +10,7 @@ exports.list = (req, res) => {
             return res.json(ApiResponse(users));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -19,12 +19,12 @@ exports.userById = (req, res) => {
         User.findById(req.params.id)
             .then((user) => {
                 if (!user) {
-                    return res.json(ApiResponse({}, "User not found", false));
+                    return res.status(404).json(ApiResponse({}, "User not found", false));
                 }
                 return res.json(ApiResponse(user));
             })
             .catch((err) => {
-                return res.json(
+                return res.status(500).json(
                     ApiResponse(
                         {},
                         errorHandler(err) ? errorHandler(err) : err.message,
@@ -33,24 +33,15 @@ exports.userById = (req, res) => {
                 );
             })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
 exports.create = (req, res) => {
     try {
-        User.findOne({ email: req.body.email }).then((err, user) => {
-            if (err) {
-                return res.json(
-                    ApiResponse(
-                        {},
-                        errorHandler(err) ? errorHandler(err) : err.message,
-                        false
-                    )
-                );
-            }
+        User.findOne({ email: req.body.email }).then((user) => {
             if (user) {
-                return res.json(ApiResponse({}, "Email already exists", false));
+                return res.status(402).json(ApiResponse({}, "Email already exists", false));
             }
             const _user = new User(req.body);
             _user.save()
@@ -58,7 +49,7 @@ exports.create = (req, res) => {
                     return res.json(ApiResponse(_user));
                 })
                 .catch((err) => {
-                    return res.json(
+                    return res.status(500).json(
                         ApiResponse(
                             {},
                             errorHandler(err) ? errorHandler(err) : err.message || err || "Unknown Error",
@@ -69,7 +60,7 @@ exports.create = (req, res) => {
         })
     } catch (error) {
         console.log(error)
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -81,12 +72,12 @@ exports.update = (req, res) => {
             { new: true })
             .then((user) => {
                 if (!user) {
-                    return res.json(ApiResponse({}, "User not found", false));
+                    return res.status(404).json(ApiResponse({}, "User not found", false));
                 }
                 return res.json(ApiResponse(user));
             })
             .catch((err) => {
-                return res.json(
+                return res.status(500).json(
                     ApiResponse(
                         {},
                         errorHandler(err) ? errorHandler(err) : err.message,
@@ -95,7 +86,7 @@ exports.update = (req, res) => {
                 );
             })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -104,12 +95,12 @@ exports.remove = (req, res) => {
         User.findByIdAndRemove(req.params.id)
             .then((user) => {
                 if (!user) {
-                    return res.json(ApiResponse({}, "User not found", false));
+                    return res.status(404).json(ApiResponse({}, "User not found", false));
                 }
                 return res.json(ApiResponse(user));
             })
             .catch((err) => {
-                return res.json(
+                return res.status(500).json(
                     ApiResponse(
                         {},
                         errorHandler(err) ? errorHandler(err) : err.message,
@@ -118,6 +109,6 @@ exports.remove = (req, res) => {
                 );
             })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }

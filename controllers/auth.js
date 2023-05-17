@@ -10,10 +10,10 @@ exports.signin = (req, res) => {
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        return res.json(ApiResponse({}, "Invalid email or password", false));
+        return res.status(401).json(ApiResponse({}, "Invalid email or password", false));
       }
       if (!user.authenticate(password)) {
-        return res.json(ApiResponse({}, "Invalid password!", false))
+        return res.status(401).json(ApiResponse({}, "Invalid password!", false))
       }
 
       const token = generateToken(user)
@@ -22,7 +22,7 @@ exports.signin = (req, res) => {
         Store.findById(user.store)
           .then((store) => {
             if (!store) {
-              return res.json(ApiResponse({}, "Store not found", false));
+              return res.status(401).json(ApiResponse({}, "Store not found", false));
             }
             return res.json(ApiResponse({ user: sanitizeUser(user), store, token }));
           })
@@ -32,7 +32,7 @@ exports.signin = (req, res) => {
       }
     })
     .catch((err) => {
-      return res.json(
+      return res.status(500).json(
         ApiResponse(
           {},
           errorHandler(err) ? errorHandler(err) : err.message,

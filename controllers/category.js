@@ -14,7 +14,7 @@ exports.list = (req, res) => {
             return res.json(ApiResponse(categories));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -27,7 +27,7 @@ exports.categoryById = (req, res) => {
             return res.json(ApiResponse(category));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -39,7 +39,7 @@ exports.create = (req, res) => {
             return res.json(ApiResponse(category));
         })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -57,7 +57,7 @@ exports.update = (req, res) => {
             }
             );
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
 
@@ -71,6 +71,6 @@ exports.remove = (req, res) => {
                 return res.json(ApiResponse(category));
             })
     } catch (error) {
-        return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
 }
