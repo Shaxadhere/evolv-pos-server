@@ -5,24 +5,16 @@ const { errorHandler } = require("../helpers/dbErrorHandler");
 require("dotenv").config();
 
 exports.authenticatedRoute = (req, res, next) => {
+    const token = req.body.token || req.query.token || req.headers["authorization"];
 
-    //extracting bearer token
-    const token =
-        req.body.token || req.query.token || req.headers["authorization"];
-
-    //responding with 403 if there is no token
     if (!token) {
-        return res.status(403).json(ApiResponse({}, "Access Forbidden", false))
+        return res.status(401).json(ApiResponse({}, "Access Forbidden", false))
     }
     try {
-
-        //verifying and decoding token
         const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
 
-        //finding current user in db
         User.findById(decoded._id)
             .then((user) => {
-                //responding with user not found error
                 if (!user) {
                     return res.json(ApiResponse({}, "User not found", false))
                 }
@@ -44,7 +36,7 @@ exports.adminRoute = (req, res, next) => {
         req.body.token || req.query.token || req.headers["authorization"];
 
     if (!token) {
-        return res.status(403).json(ApiResponse({}, "Access Forbidden", false))
+        return res.status(401).json(ApiResponse({}, "Access Forbidden", false))
     }
     try {
         const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);

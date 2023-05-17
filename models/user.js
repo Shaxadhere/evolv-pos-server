@@ -30,6 +30,11 @@ const userSchema = new mongoose.Schema(
     isAdmin:{
       type: Boolean,
       default: false
+    },
+    store:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "store",
+      required: false
     }
   },
   { timestamps: true }

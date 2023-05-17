@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Store = require("../models/store");
 const { generateToken } = require("../helpers");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { ApiResponse } = require("../helpers");
@@ -16,7 +17,19 @@ exports.signin = (req, res) => {
       }
 
       const token = generateToken(user)
-      return res.json(ApiResponse({ user: sanitizeUser(user), token }));
+
+      if (!user.isAdmin) {
+        Store.findById(user.store)
+          .then((store) => {
+            if (!store) {
+              return res.json(ApiResponse({}, "Store not found", false));
+            }
+            return res.json(ApiResponse({ user: sanitizeUser(user), store, token }));
+          })
+      }
+      else {
+        return res.json(ApiResponse({ user: sanitizeUser(user), token }));
+      }
     })
     .catch((err) => {
       return res.json(

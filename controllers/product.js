@@ -1,12 +1,13 @@
 const Product = require("../models/product");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { ApiResponse } = require("../helpers");
+const { getProductListPipeline } = require("../pipelines/product");
 
 exports.list = (req, res) => {
     try {
         const page = req.query.page || 1;
         const limit = req.query.limit || 10;
-        Product.aggregatePaginate(Product.aggregate([]), { page, limit }).then((products) => {
+        Product.aggregatePaginate(Product.aggregate(getProductListPipeline(req)), { page, limit }).then((products) => {
             return res.json(ApiResponse(products));
         })
     } catch (error) {
@@ -29,6 +30,7 @@ exports.productById = (req, res) => {
 
 exports.create = (req, res) => {
     try {
+        req.body.store = req.user.store;
         const product = new Product(req.body);
         product.save().then((product) => {
             return res.json(ApiResponse(product));
@@ -62,7 +64,7 @@ exports.remove = (req, res) => {
             if (!product) {
                 return res.json(ApiResponse({}, "Product not found", false));
             }
-            return res.json(ApiResponse({ product }));
+            return res.json(ApiResponse(product));
         })
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));

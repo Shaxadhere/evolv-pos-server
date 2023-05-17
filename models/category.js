@@ -15,7 +15,7 @@ const categorySchema = new mongoose.Schema({
         trim: true,
         maxlength: 2000
     },
-    storeId: {
+    store: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "store",
         required: true

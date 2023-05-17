@@ -6,7 +6,11 @@ exports.list = (req, res) => {
     try {
         const page = req.query.page || 1;
         const limit = req.query.limit || 10;
-        Category.aggregatePaginate(Category.aggregate([]), { page, limit }).then((categories) => {
+        Category.aggregatePaginate(Category.aggregate([{
+            $match: {
+                store: req.user.store
+            }
+        }]), { page, limit }).then((categories) => {
             return res.json(ApiResponse(categories));
         })
     } catch (error) {
@@ -29,6 +33,7 @@ exports.categoryById = (req, res) => {
 
 exports.create = (req, res) => {
     try {
+        req.body.store = req.user.store;
         const category = new Category(req.body);
         category.save().then((category) => {
             return res.json(ApiResponse(category));
