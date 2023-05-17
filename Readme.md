@@ -1,7 +1,7 @@
 ## Evolv POS Server
 
 This project is made on react, you can look for the rest of the dependencies in package.json. This will be the frontend for EvolvPOS web clients.
-Backend for this is located at [https://github.com/Shaxadhere/evolv-pos-client](https://github.com/Shaxadhere/evolv-pos-client)
+Web client for this is located at [https://github.com/Shaxadhere/evolv-pos-client](https://github.com/Shaxadhere/evolv-pos-client)
 
 ## Setup
 
