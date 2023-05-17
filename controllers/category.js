@@ -16,20 +16,11 @@ exports.list = (req, res) => {
 
 exports.categoryById = (req, res) => {
     try {
-        Category.findById(req.params.id, (err, category) => {
-            if (err) {
-                return res.json(
-                    ApiResponse(
-                        {},
-                        errorHandler(err) ? errorHandler(err) : err.message,
-                        false
-                    )
-                );
-            }
+        Category.findById(req.params.id).then((category) => {
             if (!category) {
                 return res.json(ApiResponse({}, "Category not found", false));
             }
-            return res.json(ApiResponse({ category }));
+            return res.json(ApiResponse(category));
         })
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -39,17 +30,8 @@ exports.categoryById = (req, res) => {
 exports.create = (req, res) => {
     try {
         const category = new Category(req.body);
-        category.save((err, category) => {
-            if (err) {
-                return res.json(
-                    ApiResponse(
-                        {},
-                        errorHandler(err) ? errorHandler(err) : err.message,
-                        false
-                    )
-                );
-            }
-            return res.json(ApiResponse({ category }));
+        category.save().then((category) => {
+            return res.json(ApiResponse(category));
         })
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -61,23 +43,14 @@ exports.update = (req, res) => {
         Category.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true },
-            (err, category) => {
-                if (err) {
-                    return res.json(
-                        ApiResponse(
-                            {},
-                            errorHandler(err) ? errorHandler(err) : err.message,
-                            false
-                        )
-                    );
-                }
+            { new: true })
+            .then((category) => {
                 if (!category) {
                     return res.json(ApiResponse({}, "Category not found", false));
                 }
-                return res.json(ApiResponse({ category }));
+                return res.json(ApiResponse(category));
             }
-        );
+            );
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
@@ -85,21 +58,13 @@ exports.update = (req, res) => {
 
 exports.remove = (req, res) => {
     try {
-        Category.findByIdAndRemove(req.params.id, (err, category) => {
-            if (err) {
-                return res.json(
-                    ApiResponse(
-                        {},
-                        errorHandler(err) ? errorHandler(err) : err.message,
-                        false
-                    )
-                );
-            }
-            if (!category) {
-                return res.json(ApiResponse({}, "Category not found", false));
-            }
-            return res.json(ApiResponse({ category }));
-        })
+        Category.findByIdAndRemove(req.params.id)
+            .then((category) => {
+                if (!category) {
+                    return res.json(ApiResponse({}, "Category not found", false));
+                }
+                return res.json(ApiResponse(category));
+            })
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }

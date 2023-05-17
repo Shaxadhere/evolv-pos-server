@@ -16,20 +16,11 @@ exports.list = (req, res) => {
 
 exports.saleById = (req, res) => {
     try {
-        Sale.findById(req.params.id, (err, sale) => {
-            if (err) {
-                return res.json(
-                    ApiResponse(
-                        {},
-                        errorHandler(err) ? errorHandler(err) : err.message,
-                        false
-                    )
-                );
-            }
+        Sale.findById(req.params.id).then((sale) => {
             if (!sale) {
                 return res.json(ApiResponse({}, "Sale not found", false));
             }
-            return res.json(ApiResponse({ sale }));
+            return res.json(ApiResponse(sale));
         })
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -39,17 +30,8 @@ exports.saleById = (req, res) => {
 exports.create = (req, res) => {
     try {
         const sale = new Sale(req.body);
-        sale.save((err, sale) => {
-            if (err) {
-                return res.json(
-                    ApiResponse(
-                        {},
-                        errorHandler(err) ? errorHandler(err) : err.message,
-                        false
-                    )
-                );
-            }
-            return res.json(ApiResponse({ sale }));
+        sale.save().then((sale) => {
+            return res.json(ApiResponse(sale));
         })
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -61,23 +43,14 @@ exports.update = (req, res) => {
         Sale.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true },
-            (err, sale) => {
-                if (err) {
-                    return res.json(
-                        ApiResponse(
-                            {},
-                            errorHandler(err) ? errorHandler(err) : err.message,
-                            false
-                        )
-                    );
-                }
+            { new: true })
+            .then((sale) => {
                 if (!sale) {
                     return res.json(ApiResponse({}, "Sale not found", false));
                 }
-                return res.json(ApiResponse({ sale }));
+                return res.json(ApiResponse(sale));
             }
-        );
+            );
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
     }
@@ -85,20 +58,11 @@ exports.update = (req, res) => {
 
 exports.remove = (req, res) => {
     try {
-        Sale.findByIdAndRemove(req.params.id, (err, sale) => {
-            if (err) {
-                return res.json(
-                    ApiResponse(
-                        {},
-                        errorHandler(err) ? errorHandler(err) : err.message,
-                        false
-                    )
-                );
-            }
+        Sale.findByIdAndRemove(req.params.id).then((sale) => {
             if (!sale) {
                 return res.json(ApiResponse({}, "Sale not found", false));
             }
-            return res.json(ApiResponse({ sale }));
+            return res.json(ApiResponse(sale));
         })
     } catch (error) {
         return res.json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));

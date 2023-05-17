@@ -27,6 +27,7 @@ const storeSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
+        enum: Object.values(STORE_STATUS),
         dafault: STORE_STATUS.INACTIVE
     }
 }, { timestamps: true })
