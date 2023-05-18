@@ -2,6 +2,7 @@ const Sale = require("../models/sale");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { ApiResponse } = require("../helpers");
 const { getSaleListPipeline } = require("../pipelines/sale");
+const { ORDER_STATUS } = require("../constants/enums");
 
 exports.list = (req, res) => {
     try {
@@ -31,6 +32,8 @@ exports.saleById = (req, res) => {
 exports.create = (req, res) => {
     try {
         req.body.store = req.user.store;
+        req.body.user = req.user._id;
+        req.body.status = ORDER_STATUS.CONFIRMED;
         const sale = new Sale(req.body);
         sale.save().then((sale) => {
             return res.json(ApiResponse(sale));

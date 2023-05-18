@@ -14,5 +14,16 @@ exports.getSaleListPipeline = (req) => {
                 as: "products.product"
             },
         },
+        {
+            $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user"
+            },
+        },
+        {
+            $unwind: "$user"
+        },
     ]
 }

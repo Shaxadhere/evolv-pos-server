@@ -3,7 +3,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -44,7 +43,6 @@ app.use(cors(coreOptions));
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-app.use(cookieParser());
 // app.use(expressValidator())
 
 // // redirecting on root
