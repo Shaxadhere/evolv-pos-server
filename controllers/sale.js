@@ -1,12 +1,13 @@
 const Sale = require("../models/sale");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { ApiResponse } = require("../helpers");
+const { getSaleListPipeline } = require("../pipelines/sale");
 
 exports.list = (req, res) => {
     try {
         const page = req.query.page || 1;
         const limit = req.query.limit || 10;
-        Sale.aggregatePaginate(Sale.aggregate([]), { page, limit }).then((sales) => {
+        Sale.aggregatePaginate(Sale.aggregate(getSaleListPipeline(req)), { page, limit }).then((sales) => {
             return res.json(ApiResponse(sales));
         })
     } catch (error) {
@@ -29,6 +30,7 @@ exports.saleById = (req, res) => {
 
 exports.create = (req, res) => {
     try {
+        req.body.store = req.user.store;
         const sale = new Sale(req.body);
         sale.save().then((sale) => {
             return res.json(ApiResponse(sale));

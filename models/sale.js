@@ -38,7 +38,7 @@ const saleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    storeId: {
+    store: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "store",
         required: true
