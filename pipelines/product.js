@@ -1,9 +1,21 @@
 exports.getProductListPipeline = (req) => {
+    const match = {
+        store: req.user.store
+    }
+    Object.keys(req.query).forEach((key) => {
+        if (key === "limit" || key === "page" || key === "sort" || key === "order" || key === "store") {
+            return;
+        }
+        if (key === "name") {
+            match[key] = { $regex: req.query[key], $options: "i" }
+        } else {
+            match[key] = req.query[key];
+        }
+    })
+
     return [
         {
-            $match: {
-                store: req.user.store
-            },
+            $match: match,
         },
         {
             $lookup: {
