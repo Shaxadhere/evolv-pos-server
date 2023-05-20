@@ -9,7 +9,10 @@ const saleSchema = new mongoose.Schema({
         {
             product: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "product",
+                required: true
+            },
+            name: {
+                type: String,
                 required: true
             },
             quantity: {
@@ -65,7 +68,7 @@ const saleSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    orderNumber:{
+    orderNumber: {
         type: String,
         required: false
     },

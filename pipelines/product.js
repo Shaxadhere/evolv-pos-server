@@ -32,12 +32,6 @@ exports.getProductListPipeline = (req) => {
                 as: "category"
             },
         },
-        {
-            $project: {
-                "category._id": 0,
-                "category.__v": 0
-            }
-        },
         { $unwind: "$category" },
     ])
 
@@ -55,7 +49,6 @@ exports.getProductListPipeline = (req) => {
         },
         {
             $project: {
-                "category._id": 0,
                 "category.__v": 0
             }
         },
