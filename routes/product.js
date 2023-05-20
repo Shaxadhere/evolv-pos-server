@@ -5,7 +5,7 @@ const { productById, create, list, remove, update } = require("../controllers/pr
 
 router.get("/", authenticatedRoute, list);
 router.get("/:id", authenticatedRoute, productById);
-router.post("/", authenticatedRoute, create);
+router.post("/", authenticatedRoute,  create);
 router.put("/:id", authenticatedRoute, update);
 router.delete("/:id", authenticatedRoute, remove);
 

@@ -4,7 +4,6 @@ exports.getSaleListPipeline = (req) => {
     const match = {
         store: req.user.store
     }
-    const sort = {}
     Object.keys(req.query).forEach((key) => {
         if (key === "limit" || key === "page" || key === "sortOrder" || key === "sortBy" || key === "store") {
             return;
@@ -20,9 +19,11 @@ exports.getSaleListPipeline = (req) => {
         }
         match[key] = req.query[key];
     })
-    if (req.query.sortBy && req.query.sortOrder) {
-        const sortBy = req.query.sortBy ? req.query.sortBy : "created_at"
-        sort[sortBy] = req.query.sortOrder === sortOrders.ASC ? 1 : -1
+    const sortBy = req.query.sortBy ? req.query.sortBy : "created_at"
+    const sortOrder = req.query.sortOrder ? req.query.sortOrder : sortOrders.DESC
+    // sort[sortBy] = sortOrder === sortOrders.ASC ? 1 : -1
+    const sort = {
+        [sortBy]: sortOrder === sortOrders.ASC ? 1 : -1
     }
     return [
         {
