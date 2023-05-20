@@ -25,5 +25,16 @@ exports.getSaleListPipeline = (req) => {
         {
             $unwind: "$user"
         },
+        {
+            $project: {
+                "user.password": 0,
+                "user.__v": 0
+            }
+        },
+        {
+            $addFields: {
+                products: "$products.product"
+            }
+        }
     ]
 }

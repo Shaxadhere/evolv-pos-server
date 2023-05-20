@@ -24,7 +24,7 @@ exports.signin = (req, res) => {
             if (!store) {
               return res.status(401).json(ApiResponse({}, "Store not found", false));
             }
-            return res.json(ApiResponse({ user: sanitizeUser(user), store, token }));
+            return res.json(ApiResponse({ user: sanitizeUser({ ...user, store }), store, token }));
           })
       }
       else {

@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 exports.getProductListPipeline = (req) => {
     const match = {
         store: req.user.store
@@ -8,10 +10,36 @@ exports.getProductListPipeline = (req) => {
         }
         if (key === "name") {
             match[key] = { $regex: req.query[key], $options: "i" }
-        } else {
-            match[key] = req.query[key];
+            return
         }
+        if (key === "category") {
+            console.log(req.query[key])
+            match[key] = new mongoose.Types.ObjectId(req.query[key]);
+            return
+        }
+        match[key] = req.query[key];
     })
+
+    console.log([
+        {
+            $match: match,
+        },
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "category"
+            },
+        },
+        {
+            $project: {
+                "category._id": 0,
+                "category.__v": 0
+            }
+        },
+        { $unwind: "$category" },
+    ])
 
     return [
         {

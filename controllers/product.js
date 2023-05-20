@@ -31,6 +31,7 @@ exports.productById = (req, res) => {
 exports.create = (req, res) => {
     try {
         req.body.store = req.user.store;
+        console.log(req.body)
         const product = new Product(req.body);
         product.save().then((product) => {
             return res.json(ApiResponse(product));
