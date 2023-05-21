@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require('mongoose-paginate');
 const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
-const { PAYMENT_METHODS, ORDER_STATUS } = require("../constants/enums");
+const { PAYMENT_METHODS, ORDER_STATUS, ORDER_TYPE } = require("../constants/enums");
 
 const saleSchema = new mongoose.Schema({
-    //products with quantity and price
     products: [
         {
             product: {
@@ -48,6 +47,11 @@ const saleSchema = new mongoose.Schema({
         enum: Object.values(PAYMENT_METHODS),
         dafault: PAYMENT_METHODS.CASH
     },
+    orderType: {
+        type: String,
+        enum: Object.values(ORDER_TYPE),
+        dafault: ORDER_TYPE.DINE_IN
+    },
     total: {
         type: Number,
         required: true
@@ -69,6 +73,10 @@ const saleSchema = new mongoose.Schema({
         required: false
     },
     orderNumber: {
+        type: String,
+        required: false
+    },
+    customer: {
         type: String,
         required: false
     },

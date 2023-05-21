@@ -14,6 +14,7 @@ const productRoutes = require("./routes/product");
 const saleRoutes = require("./routes/sale");
 const storeRoutes = require("./routes/store");
 const userRoutes = require("./routes/user");
+const customerRoutes = require("./routes/customer");
 
 //initialising app
 const app = express();
@@ -58,6 +59,7 @@ app.use("/api/product", productRoutes);
 app.use("/api/sale", saleRoutes);
 app.use("/api/store", storeRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/customer", customerRoutes)
 
 app.use("/uploads", express.static("uploads"));
 

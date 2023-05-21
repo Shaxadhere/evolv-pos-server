@@ -1,4 +1,5 @@
 const Sale = require("../models/sale");
+const Customer = require("../models/customer");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { ApiResponse } = require("../helpers");
 const { getSaleListPipeline } = require("../pipelines/sale");
@@ -34,6 +35,14 @@ exports.create = (req, res) => {
         req.body.store = req.user.store;
         req.body.user = req.user._id;
         req.body.status = ORDER_STATUS.CONFIRMED;
+
+        // if (req.body.customerName) {
+        //     const customer = new Customer({ name: req.body.customerName, store: req.user.store });
+        //     customer.save().then((customer) => {
+        //         req.body.customer = customer._id;
+        //     })
+        // }
+
         const sale = new Sale(req.body);
         sale.save().then((sale) => {
             return res.json(ApiResponse(sale));

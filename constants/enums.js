@@ -15,3 +15,9 @@ exports.ORDER_STATUS = {
     CANCELLED: 'CANCELLED',
     DELIVERED: 'DELIVERED',
 }
+
+exports.ORDER_TYPE = {
+    DINE_IN: 'Dine In',
+    TAKE_AWAY: 'Take Away',
+    DELIVERY: 'Delivery',
+}
