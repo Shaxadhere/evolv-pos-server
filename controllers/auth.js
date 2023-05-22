@@ -24,11 +24,11 @@ exports.signin = (req, res) => {
             if (!store) {
               return res.status(401).json(ApiResponse({}, "Store not found", false));
             }
-            return res.json(ApiResponse({ user: sanitizeUser(user), store, token }));
+            return res.json(ApiResponse({ user: sanitizeUser(user), store, token }, "User logged in successfully", true));
           })
       }
       else {
-        return res.json(ApiResponse({ user: sanitizeUser(user), token }));
+        return res.json(ApiResponse({ user: sanitizeUser(user), token }, "User logged in successfully", true));
       }
     })
     .catch((err) => {

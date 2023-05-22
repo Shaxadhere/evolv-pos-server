@@ -45,7 +45,7 @@ exports.create = (req, res) => {
 
         const sale = new Sale(req.body);
         sale.save().then((sale) => {
-            return res.json(ApiResponse(sale));
+            return res.json(ApiResponse(sale, "Sale created successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -62,7 +62,7 @@ exports.update = (req, res) => {
                 if (!sale) {
                     return res.status(404).json(ApiResponse({}, "Sale not found", false));
                 }
-                return res.json(ApiResponse(sale));
+                return res.json(ApiResponse(sale, "Sale updated successfully", true));
             }
             );
     } catch (error) {
@@ -76,7 +76,7 @@ exports.remove = (req, res) => {
             if (!sale) {
                 return res.status(404).json(ApiResponse({}, "Sale not found", false));
             }
-            return res.json(ApiResponse(sale));
+            return res.json(ApiResponse(sale, "Sale deleted successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));

@@ -46,7 +46,7 @@ exports.create = (req, res) => {
             const _user = new User(req.body);
             _user.save()
                 .then((_user) => {
-                    return res.json(ApiResponse(_user));
+                    return res.json(ApiResponse(_user, "User created successfully", true));
                 })
                 .catch((err) => {
                     return res.status(500).json(
@@ -74,7 +74,7 @@ exports.update = (req, res) => {
                 if (!user) {
                     return res.status(404).json(ApiResponse({}, "User not found", false));
                 }
-                return res.json(ApiResponse(user));
+                return res.json(ApiResponse(user, "User updated successfully", true));
             })
             .catch((err) => {
                 return res.status(500).json(
@@ -97,7 +97,7 @@ exports.remove = (req, res) => {
                 if (!user) {
                     return res.status(404).json(ApiResponse({}, "User not found", false));
                 }
-                return res.json(ApiResponse(user));
+                return res.json(ApiResponse(user, "User deleted successfully", true));
             })
             .catch((err) => {
                 return res.status(500).json(

@@ -31,7 +31,7 @@ exports.create = (req, res) => {
     try {
         const store = new Store(req.body);
         store.save().then((store) => {
-            return res.json(ApiResponse(store));
+            return res.json(ApiResponse(store, "Store created successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -48,7 +48,7 @@ exports.update = (req, res) => {
                 if (!store) {
                     return res.status(404).json(ApiResponse({}, "Store not found", false));
                 }
-                return res.json(ApiResponse(store));
+                return res.json(ApiResponse(store, "Store updated successfully", true));
             }
             );
     } catch (error) {
@@ -62,7 +62,7 @@ exports.remove = (req, res) => {
             if (!store) {
                 return res.status(404).json(ApiResponse({}, "Store not found", false));
             }
-            return res.json(ApiResponse(store));
+            return res.json(ApiResponse(store, "Store deleted successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));

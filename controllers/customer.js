@@ -32,7 +32,7 @@ exports.create = (req, res) => {
         req.body.store = req.user.store;
         const customer = new Customer(req.body);
         customer.save().then((customer) => {
-            return res.json(ApiResponse(customer));
+            return res.json(ApiResponse(customer, "Customer created successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -49,7 +49,7 @@ exports.update = (req, res) => {
                 if (!customer) {
                     return res.json(ApiResponse({}, "Customer not found", false));
                 }
-                return res.json(ApiResponse(customer));
+                return res.json(ApiResponse(customer, "Customer updated successfully", true));
             }
             );
     } catch (error) {
@@ -63,7 +63,7 @@ exports.remove = (req, res) => {
             if (!customer) {
                 return res.json(ApiResponse({}, "Customer not found", false));
             }
-            return res.json(ApiResponse(customer));
+            return res.json(ApiResponse(customer, "Customer deleted successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));

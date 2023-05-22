@@ -34,7 +34,7 @@ exports.create = (req, res) => {
         console.log(req.body)
         const product = new Product(req.body);
         product.save().then((product) => {
-            return res.json(ApiResponse(product));
+            return res.json(ApiResponse(product, "Product created successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -51,7 +51,7 @@ exports.update = (req, res) => {
                 if (!product) {
                     return res.json(ApiResponse({}, "Product not found", false));
                 }
-                return res.json(ApiResponse(product));
+                return res.json(ApiResponse(product, "Product updated successfully", true));
             }
             );
     } catch (error) {
@@ -65,7 +65,7 @@ exports.remove = (req, res) => {
             if (!product) {
                 return res.json(ApiResponse({}, "Product not found", false));
             }
-            return res.json(ApiResponse(product));
+            return res.json(ApiResponse(product, "Product deleted successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));

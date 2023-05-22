@@ -36,7 +36,7 @@ exports.create = (req, res) => {
         req.body.store = req.user.store;
         const category = new Category(req.body);
         category.save().then((category) => {
-            return res.json(ApiResponse(category));
+            return res.json(ApiResponse(category, "Category created successfully", true));
         })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
@@ -53,7 +53,7 @@ exports.update = (req, res) => {
                 if (!category) {
                     return res.json(ApiResponse({}, "Category not found", false));
                 }
-                return res.json(ApiResponse(category));
+                return res.json(ApiResponse(category, "Category updated successfully", true));
             }
             );
     } catch (error) {
@@ -68,7 +68,7 @@ exports.remove = (req, res) => {
                 if (!category) {
                     return res.json(ApiResponse({}, "Category not found", false));
                 }
-                return res.json(ApiResponse(category));
+                return res.json(ApiResponse(category, "Category deleted successfully", true));
             })
     } catch (error) {
         return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
