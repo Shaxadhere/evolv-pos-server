@@ -2,7 +2,7 @@ const Sale = require("../models/sale");
 const Customer = require("../models/customer");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { ApiResponse } = require("../helpers");
-const { getSaleListPipeline } = require("../pipelines/sale");
+const { getSaleListPipeline, getSaleReportPipeline } = require("../pipelines/sale");
 const { ORDER_STATUS } = require("../constants/enums");
 
 exports.list = (req, res) => {
@@ -10,6 +10,16 @@ exports.list = (req, res) => {
         const page = req.query.page || 1;
         const limit = req.query.limit || 10;
         Sale.aggregatePaginate(Sale.aggregate(getSaleListPipeline(req)), { page, limit }).then((sales) => {
+            return res.json(ApiResponse(sales));
+        })
+    } catch (error) {
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+    }
+}
+
+exports.report = (req, res) => {
+    try {
+        Sale.aggregate(getSaleReportPipeline(req)).then((sales) => {
             return res.json(ApiResponse(sales));
         })
     } catch (error) {

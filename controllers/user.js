@@ -14,6 +14,16 @@ exports.list = (req, res) => {
     }
 }
 
+exports.listStoreUsers  = (req, res) => {
+    try {
+        User.find({store: req.user.store}).then((users) => {
+            return res.json(ApiResponse(users));
+        })
+    } catch (error) {
+        return res.status(500).json(ApiResponse({}, errorHandler(error) ? errorHandler(error) : error.message, false));
+    }
+}
+
 exports.userById = (req, res) => {
     try {
         User.findById(req.params.id)
